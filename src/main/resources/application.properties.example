@@ -1,0 +1,19 @@
+spring.jpa.database=POSTGRESQL
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.generate-ddl=true
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.datasource.platform=postgres
+spring.database.driverClassName=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://localhost:5432/onto
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+server.port=8080
+spring.jpa.properties.jadira.usertype.autoRegisterUserTypes = true
+spring.http.multipart.max-file-size=10MB
+spring.http.multipart.max-request-size=10MB
+spring.jpa.properties.hibernate.hbm2ddl.import_files_sql_extractor=org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+spring.devtools.livereload.enabled=true
+
+#server.tomcat.remote_ip_header=x-forwarded-for
+#server.tomcat.protocol_header=x-forwarded-proto
