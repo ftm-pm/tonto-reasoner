@@ -25,4 +25,5 @@ nbdist/
 
 ### Custom ###
 /tmp
+/lib
 /src/main/resources/application.properties

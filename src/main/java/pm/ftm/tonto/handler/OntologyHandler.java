@@ -1,26 +1,29 @@
-package pm.ftm.tonto.controller;
+package pm.ftm.tonto.handler;
 
-import org.semanticweb.HermiT.Reasoner;
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.StringDocumentSource;
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.reasoner.*;
-import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
-import org.springframework.web.bind.annotation.*;
-
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.springframework.stereotype.Service;
+import pm.ftm.tonto.model.Request;
+import pm.ftm.tonto.model.Response;
+import pm.ftm.tonto.ontology.Manager;
+import pm.ftm.tonto.model.OntologyException;
 
 import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.stream.Stream;
+import java.io.IOException;
+import java.util.List;
 
-@RestController
-public class DataController {
+@Service
+public final class OntologyHandler {
+
+    /**
+     * Ontology manager
+     */
+    private final Manager manager;
+
+    public OntologyHandler() {
+        this.manager = new Manager();
+    }
 
     @Nonnull
-    private static final String baseOntology = "<?xml version=\"1.0\"?>\n" +
+    public static final String BASE_ONTOLOGY = "<?xml version=\"1.0\"?>\n" +
             "<Ontology xmlns=\"http://www.w3.org/2002/07/owl#\"\n" +
             "     xml:base=\"alex\"\n" +
             "     xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n" +
@@ -90,93 +93,41 @@ public class DataController {
             "    </DLSafeRule>\n" +
             "</Ontology>\n";
 
-    @RequestMapping(value = "/api/ontology")
-    public String greeting(@RequestBody Params params) {
-        if (params.ontology == null) {
-            params.setOntology(baseOntology);
-        }
-        List<IRI> response = new ArrayList<IRI>();
-
-        try {
-            response = shouldUseReasoner(params.ontology, params.query);
-        } catch (OWLOntologyCreationException exp) {
-            System.out.print(exp.getMessage());
-        }
-        Optional<String> list = response.stream().map(item -> item.getShortForm().toString()).reduce((s1, s2) -> s1 + s2);
-        return list.toString();
-    }
-
-    public static class Params {
-
-        private String ontology;
-        private String query;
-
-        public Params() {
-        }
-
-        public String getOntology() {
-            return ontology;
-        }
-
-        public void setOntology(String ontology) {
-            this.ontology = ontology;
-        }
-
-        public String getQuery() {
-            return query;
-        }
-
-        public void setQuery(String query) {
-            this.query = query;
-        }
-    }
-
     /**
-     * @param manager OWLOntologyManager
-     * @return loaded ontology
-     * @throws OWLOntologyCreationException if a problem pops up
+     * Return response
+     *
+     * @param request Request
+     * @return Return response
      */
-    @Nonnull
-    private OWLOntology load(@Nonnull OWLOntologyManager manager, String ontology) throws OWLOntologyCreationException {
-        return manager.loadOntologyFromOntologyDocument(new StringDocumentSource(ontology));
-    }
+    public Response getResponse(Request request) {
+        Response response;
+        if (!request.isEmptyOntology()) {
+            try {
+                boolean loaded = false;
+                if (request.isEmptyOntologyIRI()) {
+                    loaded = manager.loadFromString(request.getOntology());
+                } else {
+                    loaded = manager.load(request.getOntologyIRI());
+                    // loaded = manager.loadFromString(BASE_ONTOLOGY);
+                }
+                if (loaded) {
+                    List<String> ask = manager.ask(request.getQuery());
+                    if (ask.isEmpty()) {
+                        response = new Response("Empty response");
+                    } else {
+                        response = new Response(ask);
+                    }
+                } else {
+                    response = new Response("Ontology not loaded");
+                }
 
-    /**
-     * @param ontologyString The ontology string
-     * @param query          The query
-     * @throws OWLOntologyCreationException if a problem pops up
-     */
-    private List<IRI> shouldUseReasoner(String ontologyString, String query) throws OWLOntologyCreationException {
-        List<IRI> response = new ArrayList<IRI>();
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        OWLOntology ont = load(manager, baseOntology);
-
-        OWLDataFactory fac = manager.getOWLDataFactory();
-        OWLReasoner reasoner = new Reasoner.ReasonerFactory().createReasoner(ont);
-
-        String prefix = ont.getOntologyID().getOntologyIRI().get() + "#";
-        OWLObjectProperty objectProperty = fac.getOWLObjectProperty(IRI.create(prefix + query));
-        Stream<OWLNamedIndividual> individuals = ont.individualsInSignature();
-
-        // Max hasParent Tom
-        // Tom hasBrother Bill
-        // ->
-        // Max hasUncle Bill
-        // objectProperty === "hasParent"
-//        OWLNamedIndividual individualx;
-
-        individuals.forEach(individual -> {
-
-            ont.objectPropertyAssertionAxioms(individual).forEach(expr -> {
-                System.out.println(expr.toString());
-            });
-
-            reasoner.objectPropertyValues(individual, objectProperty).forEach(ind -> {
-                response.add(individual.getIRI());
-            });
-        });
+            } catch (Exception exception) {
+                response = new Response(exception);
+            }
+        } else {
+            response = new Response("Ontology not found");
+        }
 
         return response;
     }
-
 }
