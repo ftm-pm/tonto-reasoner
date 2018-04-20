@@ -4,6 +4,10 @@ package pm.ftm.tonto.ontology;
  * Tag of ontology model types
  */
 public class Tag {
+
+    private Tag() {
+    }
+
     public final static int
             NULL = 1000,
             POINT = 1001,
@@ -63,6 +67,10 @@ public class Tag {
             INTERSECTION_OF = 3016,
             UNION_OF = 3017,
             PERHAPS = 3018,
+            WHO_WHAT = 3019,
+            ALL = 3020,
+            SUPERCLASS_OF = 3021,
+            INSTANCE = 3022,
 
     DL = 3100,
             DL_BODY = 3101,

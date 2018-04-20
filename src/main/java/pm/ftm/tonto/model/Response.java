@@ -1,12 +1,10 @@
 package pm.ftm.tonto.model;
 
-import java.util.List;
-
 public class Response {
     private String error;
-    private List<String> body;
+    private ResultResponse body;
 
-    public Response(List<String> body) {
+    public Response(ResultResponse body) {
         this.body = body;
     }
 
@@ -28,11 +26,11 @@ public class Response {
         this.error = error;
     }
 
-    public List<String> getBody() {
+    public ResultResponse getBody() {
         return body;
     }
 
-    public void setBody(List<String> body) {
+    public void setBody(ResultResponse body) {
         this.body = body;
     }
 }
