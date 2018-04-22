@@ -24,6 +24,7 @@ public class OntologyController {
      * @param request Request model
      * @return Return response
      */
+    @CrossOrigin
     @RequestMapping(value = "/api/ontology", method = RequestMethod.POST, produces = "application/json")
     public Response index(@RequestBody Request request) {
         return ontologyHandler.getResponse(request);

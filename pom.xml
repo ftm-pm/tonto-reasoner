@@ -51,7 +51,7 @@
 			<groupId>net.sourceforge.owlapi</groupId>
 			<artifactId>org.semanticweb.hermit</artifactId>
 			<version>1.4.1.513</version>
-			<scope>test</scope>
+			<scope>...</scope>
 		</dependency>
 
 
@@ -60,31 +60,6 @@
 			<artifactId>owlapi-distribution</artifactId>
 			<version>5.1.4</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/net.sourceforge.owlapi/owlapi-api -->
-		<!--<dependency>-->
-			<!--<groupId>net.sourceforge.owlapi</groupId>-->
-			<!--<artifactId>owlapi-api</artifactId>-->
-			<!--<version>5.1.4</version>-->
-		<!--</dependency>-->
-		<!--&lt;!&ndash; https://mvnrepository.com/artifact/net.sourceforge.owlapi/owlapi-apibinding &ndash;&gt;-->
-		<!--<dependency>-->
-			<!--<groupId>net.sourceforge.owlapi</groupId>-->
-			<!--<artifactId>owlapi-apibinding</artifactId>-->
-			<!--<version>5.1.4</version>-->
-		<!--</dependency>-->
-		<!--&lt;!&ndash; https://mvnrepository.com/artifact/net.sourceforge.owlapi/owlapi-impl &ndash;&gt;-->
-		<!--<dependency>-->
-			<!--<groupId>net.sourceforge.owlapi</groupId>-->
-			<!--<artifactId>owlapi-impl</artifactId>-->
-			<!--<version>5.1.4</version>-->
-		<!--</dependency>-->
-		<!--&lt;!&ndash; https://mvnrepository.com/artifact/net.sourceforge.owlapi/owlapi-parsers &ndash;&gt;-->
-		<!--<dependency>-->
-			<!--<groupId>net.sourceforge.owlapi</groupId>-->
-			<!--<artifactId>owlapi-parsers</artifactId>-->
-			<!--<version>5.1.4</version>-->
-		<!--</dependency>-->
-
 
 	</dependencies>
 
@@ -96,5 +71,18 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<!--<repositories>-->
+		<!--<repository>-->
+			<!--<id>spring-releases</id>-->
+			<!--<url>https://repo.spring.io/libs-release</url>-->
+		<!--</repository>-->
+	<!--</repositories>-->
+	<!--<pluginRepositories>-->
+		<!--<pluginRepository>-->
+			<!--<id>spring-releases</id>-->
+			<!--<url>https://repo.spring.io/libs-release</url>-->
+		<!--</pluginRepository>-->
+	<!--</pluginRepositories>-->
 
 </project>

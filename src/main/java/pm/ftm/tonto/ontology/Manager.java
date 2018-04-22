@@ -1,6 +1,6 @@
 package pm.ftm.tonto.ontology;
 
-import org.semanticweb.HermiT.ReasonerFactory;
+import org.semanticweb.HermiT.*;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.*;

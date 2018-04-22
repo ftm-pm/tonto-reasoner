@@ -42,7 +42,11 @@ public final class OntologyHandler {
                 }
 
             } catch (Exception exception) {
-                response = new Response(exception);
+                if (exception.getMessage() != null) {
+                    response = new Response(exception);
+                } else {
+                    response = new Response("Ontology not loaded");
+                }
             }
         } else {
             response = new Response("Ontology not found");

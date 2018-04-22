@@ -1,7 +1,7 @@
 package pm.ftm.tonto.ontology;
 
 /**
- * Tag of ontology model types
+ * Tag of ontology models types
  */
 public class Tag {
 
